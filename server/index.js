@@ -1,7 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const db = require('../db/index.js');
+const mysql = require('mysql');
+const mysqlConfig = require('../db/config');
+
+const connection = mysql.createConnection(mysqlConfig);
 
 const app = express();
 const Port = 3004;
@@ -17,28 +20,19 @@ app.use(function(req, res, next) {
 
 app.use(express.static(path.join(__dirname, '/../client/dist')));
 
-app.get('/api/reviews/:homeId', (req, res) => {
-  console.log("this is my target", req.params.homeId);
-  db.getReviews(req.params.homeId, (err, reviews) => {
-    if (err) {
-      console.log("We have a server problem", err);
-    } else {
-      res.send(reviews);
-      res.end();
-    }
-  });
-});
 
-app.get('/api/author/:homeId', (req, res) => {
-  db.getAuthors((err, authors) => {
+app.get('/api/reviews/:homeId', (req, res) => {
+  const homeId = req.params.homeId;
+  connection.query(`SELECT * FROM reviews, authors WHERE reviews.home_id = ${homeId} && reviews.author_id = authors.id`, (err, response) => {
     if (err) {
-      console.log(err);
+      res.sendStatus(403);
     } else {
-      res.send(authors);
-      res.end();
+      res.send(response);
     }
-  });
 });
+})
+
+
 
 
 app.listen(Port, () => {
