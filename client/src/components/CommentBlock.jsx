@@ -45,11 +45,9 @@ class CommentBlock extends React.Component {
 
   render() {
     const desiredDate = new Date(this.state.date[0]);
-    // const monthName = new Intl.DateTimeFormat("en-US", { month: "long" }).format;
     const month = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const m = desiredDate.getMonth();
     const y = desiredDate.getFullYear();
-    // console.log(monthName(desiredDate));
     return (
       <div>
         <div className="commentTop">

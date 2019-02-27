@@ -13,7 +13,7 @@ class App extends React.Component {
     this.state = {
       sort: 'relevant',
       reviewPage: 1,
-      homeId: 120,
+      homeId: window.location.search.slice(1),
     };
   }
 

@@ -27,21 +27,7 @@ class CommentsBlock extends React.Component {
   render() {
     return (
       <div>
-        <hr />
         <CommentBlock homeId={this.state.homeId} />
-        <hr />
-        <CommentBlock homeId={this.state.homeId} />
-        <hr />
-        <CommentBlock homeId={this.state.homeId} />
-        <hr />
-        <CommentBlock homeId={this.state.homeId} />
-        <hr />
-        <CommentBlock homeId={this.state.homeId} />
-        <hr />
-        <CommentBlock homeId={this.state.homeId} />
-        <hr />
-        <CommentBlock homeId={this.state.homeId}/>
-        <hr />
       </div>
     );
   }
