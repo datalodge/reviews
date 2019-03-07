@@ -1,0 +1,18 @@
+config:
+  target: "http://localhost:3004"
+  phases:
+    - duration: 60
+      arrivalRate: 1000
+scenarios:
+  - name: "post reviews"
+    flow:
+      - post:
+          url: "/api/reviews/1298736"
+      - post:
+          url: "/api/reviews/3254632"
+      - post:
+          url: "/api/reviews/9732839"
+      - post:
+          url: "/api/reviews/6492308"
+      - post:
+          url: "/api/reviews/7823902"
