@@ -1,32 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import React from 'react';
 import Axios from 'axios';
-// import styled from 'styled-components';
-
-// const StarsOuter = styled.div`
-//     position: relative;
-//     display: inline-block;
-//     &:before {
-//       content: "\f005 \f005 \f005 \f005 \f005";
-//       font-family: 'Font Awesome 5 Free';
-//       font-weight: 900;
-//       color: #ccc;
-//     }
-// `;
-// const Accuracy = styled.div`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   white-space: nowrap;
-//   overflow: hidden;
-//   width: 0;
-//   &:before {
-//     content: "\f005 \f005 \f005 \f005 \f005";
-//     font-family: 'Font Awesome 5 Free';
-//     font-weight: 900;
-//     color: #008489;
-//   }
-// `;
 
 class IndependentReviews extends React.Component {
   constructor(props) {
@@ -47,7 +21,7 @@ class IndependentReviews extends React.Component {
       if (index > str.length - 1) return str;
       return str.substr(0, index) + chr + str.substr(index + 1);
     };
-    Axios.get(`Http://localhost:3004/Api/reviews/${this.state.homeId}`)
+    Axios.get(`/api/reviews/${this.state.homeId}`)
       .then((res) => {
         let independentAccuracy = 0;
         let independentLocation = 0;
@@ -57,7 +31,7 @@ class IndependentReviews extends React.Component {
         let independentValue = 0;
         for (let i = 0; i < res.data.length; i += 1) {
           independentAccuracy += res.data[i].accuracy;
-          independentLocation += res.data[i].location;
+          independentLocation += res.data[i].communication;
           independentCommunication += res.data[i].communication;
           independentCheckin += res.data[i].check_in;
           independentCleanliness += res.data[i].cleanliness;
@@ -81,7 +55,7 @@ class IndependentReviews extends React.Component {
       })
       .then((res) => {
         for (const catagories in this.state) {
-          const starPersentage = (this.state[catagories] / 5 ) * 100;
+          const starPersentage = (this.state[catagories] / 5) * 100;
           const starPersentageRounded = (`${Math.round(starPersentage / 10) * 10}%`);
           document.querySelector(`#${catagories}`).style.width = starPersentageRounded;
         }

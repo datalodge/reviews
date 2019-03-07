@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Flag from './Flag.jsx';
-
+import moment from 'moment';
 class CommentBlock extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +15,7 @@ class CommentBlock extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`Http://localhost:3004/Api/reviews/${this.state.homeId}`)
+    axios.get(`/api/reviews/${this.state.homeId}`)
       .then((res) => {
         const reviewsArray = [];
         const dateArray = [];
@@ -24,21 +24,8 @@ class CommentBlock extends React.Component {
           dateArray.push(res.data[i].created_at);
         }
         this.setState({
-          reviews: reviewsArray,
+          reviews: res.data,
           date: dateArray,
-        });
-      });
-    axios.get(`Http://localhost:3004/Api/author/${this.state.homeId}`)
-      .then((res) => {
-        const authorNameArray = [];
-        const authorPicArray = [];
-        for (let i = 0; i < res.data.length; i += 1) {
-          authorNameArray.push(res.data[i].name);
-          authorPicArray.push(res.data[i].img_url);
-        }
-        this.setState({
-          authorName: authorNameArray,
-          authorPic: authorPicArray,
         });
       });
   }
@@ -48,26 +35,33 @@ class CommentBlock extends React.Component {
     const month = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const m = desiredDate.getMonth();
     const y = desiredDate.getFullYear();
+    console.log('REVIEWS', this.state.reviews, m)
     return (
-      <div>
-        <div className="commentTop">
-          <div className="leftItems">
-            <div className="picContainer">
-              <img className="profilePic" src={this.state.authorPic[0]} alt="" />
+      <>
+        {
+          this.state.reviews.map((i) => (
+            <div>
+              <div className="commentTop">
+                <div className="leftItems">
+                  <div className="picContainer">
+                    <img className="profilePic" src={i.img_url.replace(/['"]+/g, '')} alt="" />
+                  </div>
+                  <div className="commentInfoContainer">
+                    <div className="authorName">{i.name}</div>
+                    <div className="dateCss">{moment(i.created_at.replace(/['"]+/g, '')).format('LL')} </div>
+                  </div>
+                </div>
+                <div className="rightItems">
+                  <Flag />
+                </div>
+              </div>
+              <div className="comment">
+                <div>{i.comment}</div>
+              </div>
             </div>
-            <div className="commentInfoContainer">
-              <div className="authorName">{this.state.authorName[0]}</div>
-              <div className="dateCss">{month[m - 1]} {y}</div>
-            </div>
-          </div>
-          <div className="rightItems">
-            <Flag />
-          </div>
-        </div>
-        <div className="comment">
-          <div>{this.state.reviews[0]}</div>
-        </div>
-      </div>
+          ))
+        }
+      </>
     );
   }
 }
