@@ -13,8 +13,9 @@ class TotalReviews extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`http://localhost:3004/Api/reviews/${this.state.homeId}`)
+    axios.get(`/api/reviews/${this.state.homeId}`)
       .then((res) => {
+        console.log('RES', res)
         const totalReviews = res.data.length;
         this.setState({
           reviewsTotal: totalReviews,
@@ -34,7 +35,7 @@ class TotalReviews extends React.Component {
           reviewAccuracy += res.data[i].accuracy;
           reviewCommunication += res.data[i].communication;
           reviewCleanliness += res.data[i].cleanliness;
-          reviewLocation += res.data[i].location;
+          reviewLocation += res.data[i].check_in;
           reviewCheckIn += res.data[i].check_in;
           reviewValue += res.data[i].value;
         }
@@ -57,6 +58,7 @@ class TotalReviews extends React.Component {
   }
 
   render() {
+    console.log('total', this.state.reviewsTotal)
     return (
       <div>
         <div className="total">

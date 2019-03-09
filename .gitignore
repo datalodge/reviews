@@ -2,3 +2,4 @@ node_modules/
 reviews.csv
 homes.csv
 users.csv
+client/dist/bundle.js

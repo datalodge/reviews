@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const client = new cassandra.Client({
-  contactPoints: ['127.0.0.1'],
+  contactPoints: ['172.31.9.8'],
   localDataCenter: 'datacenter1'
 })
 
@@ -22,5 +22,5 @@ app.get('/api/reviews/:homeId', async (req, res) => {
 })
 
 app.listen(3004, function () {
-  console.log('Your node is running on port 3000');
+  console.log('Your node is running on port 3004');
 });
