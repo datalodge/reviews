@@ -5,8 +5,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const client = new cassandra.Client({
-  contactPoints: ['172.31.9.8'],
-  localDataCenter: 'datacenter1'
+  contactPoints: ['172.31.19.114', '172.31.27.211'],
+  localDataCenter: 'us-west',
+  keyspace: 'data_lodge'
 })
 
 app.use(bodyParser.json());
@@ -16,9 +17,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '/../client/dist')))
 
 app.get('/api/reviews/:homeId', async (req, res) => {
-  const homeId = req.params.homeId;
-  const rows = await client.execute(`SELECT * FROM data_lodge.reviews WHERE home_id = ${homeId}`)
-  res.send(rows.rows)
+  try {
+    const homeId = req.params.homeId;
+    const rows = await client.execute(`SELECT * FROM reviews WHERE home_id = ${homeId}`)
+    res.send(rows.rows)
+  } catch (e) {
+    res.sendStatus(404)
+  }
 })
 
 app.listen(3004, function () {
